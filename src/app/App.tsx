@@ -485,7 +485,7 @@ export default function App() {
               {forecast.map((day, index) => (
                 <div
                   key={index}
-                  className={`${cardBgColor} border-2 border-black rounded-xl sm:rounded-2xl p-2 sm:p-3 flex flex-col items-center`}
+                  className={`${cardBgColor} rounded-xl sm:rounded-2xl p-2 sm:p-3 flex flex-col items-center`}
                 >
                   <div className="text-black text-base sm:text-xl mb-1">{day.temp}°</div>
                   <div className="text-black text-[10px] sm:text-xs mb-1">{day.day}</div>
