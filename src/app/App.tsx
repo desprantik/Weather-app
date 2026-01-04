@@ -49,19 +49,148 @@ export default function App() {
   const API_KEY = '515baf0860975c22479605b733774607';
   const SERVER_URL = `https://${projectId}.supabase.co/functions/v1/make-server-95efc439`;
 
+  // Weather-based color schemes with subtle variations
+  const getWeatherColorScheme = (weatherCondition: string, temperature: number) => {
+    const condition = weatherCondition.toLowerCase();
+    
+    // Helper function to randomly select from an array of color schemes
+    const getRandomScheme = (schemes: Array<{bg: string, card: string, hover: string}>) => {
+      return schemes[Math.floor(Math.random() * schemes.length)];
+    };
+    
+    // Sunny/Clear - Yellow/Orange family with variations
+    if (condition.includes('clear') || condition.includes('sun')) {
+      if (temperature > 25) {
+        // Hot & Sunny - Orange family variations
+        return getRandomScheme([
+          { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
+          { bg: 'bg-orange-500', card: 'bg-orange-400', hover: 'hover:bg-orange-600' },
+          { bg: 'bg-amber-400', card: 'bg-amber-300', hover: 'hover:bg-amber-500' },
+          { bg: 'bg-yellow-500', card: 'bg-yellow-400', hover: 'hover:bg-yellow-600' },
+        ]);
+      } else {
+        // Pleasant & Sunny - Yellow family variations
+        return getRandomScheme([
+          { bg: 'bg-yellow-400', card: 'bg-yellow-300', hover: 'hover:bg-yellow-500' },
+          { bg: 'bg-yellow-500', card: 'bg-yellow-400', hover: 'hover:bg-yellow-600' },
+          { bg: 'bg-amber-300', card: 'bg-amber-200', hover: 'hover:bg-amber-400' },
+          { bg: 'bg-lime-400', card: 'bg-lime-300', hover: 'hover:bg-lime-500' },
+        ]);
+      }
+    }
+    
+    // Rainy - Blue family variations
+    if (condition.includes('rain') || condition.includes('drizzle') || condition.includes('thunderstorm')) {
+      return getRandomScheme([
+        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
+        { bg: 'bg-blue-500', card: 'bg-blue-400', hover: 'hover:bg-blue-600' },
+        { bg: 'bg-sky-400', card: 'bg-sky-300', hover: 'hover:bg-sky-500' },
+        { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
+        { bg: 'bg-cyan-500', card: 'bg-cyan-400', hover: 'hover:bg-cyan-600' },
+      ]);
+    }
+    
+    // Snow - Cyan/Blue family variations
+    if (condition.includes('snow')) {
+      return getRandomScheme([
+        { bg: 'bg-cyan-400', card: 'bg-cyan-300', hover: 'hover:bg-cyan-500' },
+        { bg: 'bg-cyan-500', card: 'bg-cyan-400', hover: 'hover:bg-cyan-600' },
+        { bg: 'bg-sky-300', card: 'bg-sky-200', hover: 'hover:bg-sky-400' },
+        { bg: 'bg-blue-300', card: 'bg-blue-200', hover: 'hover:bg-blue-400' },
+        { bg: 'bg-teal-400', card: 'bg-teal-300', hover: 'hover:bg-teal-500' },
+      ]);
+    }
+    
+    // Fog/Mist/Haze - Gray family variations
+    if (condition.includes('mist') || condition.includes('fog') || condition.includes('haze')) {
+      return getRandomScheme([
+        { bg: 'bg-gray-400', card: 'bg-gray-300', hover: 'hover:bg-gray-500' },
+        { bg: 'bg-gray-500', card: 'bg-gray-400', hover: 'hover:bg-gray-600' },
+        { bg: 'bg-slate-400', card: 'bg-slate-300', hover: 'hover:bg-slate-500' },
+        { bg: 'bg-slate-500', card: 'bg-slate-400', hover: 'hover:bg-slate-600' },
+        { bg: 'bg-zinc-400', card: 'bg-zinc-300', hover: 'hover:bg-zinc-500' },
+      ]);
+    }
+    
+    // Cloudy - Temperature-based with variations
+    if (condition.includes('cloud')) {
+      if (temperature > 25) {
+        // Hot but cloudy - Warm gray/orange variations
+        return getRandomScheme([
+          { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
+          { bg: 'bg-amber-400', card: 'bg-amber-300', hover: 'hover:bg-amber-500' },
+          { bg: 'bg-stone-400', card: 'bg-stone-300', hover: 'hover:bg-stone-500' },
+        ]);
+      } else if (temperature < 10) {
+        // Cold & Cloudy - Cool blue/indigo variations
+        return getRandomScheme([
+          { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
+          { bg: 'bg-indigo-500', card: 'bg-indigo-400', hover: 'hover:bg-indigo-600' },
+          { bg: 'bg-slate-500', card: 'bg-slate-400', hover: 'hover:bg-slate-600' },
+          { bg: 'bg-blue-500', card: 'bg-blue-400', hover: 'hover:bg-blue-600' },
+        ]);
+      } else {
+        // Pleasant & Cloudy - Neutral gray variations
+        return getRandomScheme([
+          { bg: 'bg-slate-400', card: 'bg-slate-300', hover: 'hover:bg-slate-500' },
+          { bg: 'bg-slate-500', card: 'bg-slate-400', hover: 'hover:bg-slate-600' },
+          { bg: 'bg-gray-500', card: 'bg-gray-400', hover: 'hover:bg-gray-600' },
+          { bg: 'bg-zinc-400', card: 'bg-zinc-300', hover: 'hover:bg-zinc-500' },
+        ]);
+      }
+    }
+    
+    // Temperature-based fallback with variations
+    if (temperature > 30) {
+      // Very Hot - Red/Orange variations
+      return getRandomScheme([
+        { bg: 'bg-red-400', card: 'bg-red-300', hover: 'hover:bg-red-500' },
+        { bg: 'bg-red-500', card: 'bg-red-400', hover: 'hover:bg-red-600' },
+        { bg: 'bg-orange-500', card: 'bg-orange-400', hover: 'hover:bg-orange-600' },
+        { bg: 'bg-rose-500', card: 'bg-rose-400', hover: 'hover:bg-rose-600' },
+      ]);
+    } else if (temperature > 25) {
+      // Hot - Orange variations
+      return getRandomScheme([
+        { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
+        { bg: 'bg-orange-500', card: 'bg-orange-400', hover: 'hover:bg-orange-600' },
+        { bg: 'bg-amber-500', card: 'bg-amber-400', hover: 'hover:bg-amber-600' },
+      ]);
+    } else if (temperature < 5) {
+      // Very Cold - Cyan/Blue variations
+      return getRandomScheme([
+        { bg: 'bg-cyan-400', card: 'bg-cyan-300', hover: 'hover:bg-cyan-500' },
+        { bg: 'bg-cyan-500', card: 'bg-cyan-400', hover: 'hover:bg-cyan-600' },
+        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
+        { bg: 'bg-sky-400', card: 'bg-sky-300', hover: 'hover:bg-sky-500' },
+      ]);
+    } else if (temperature < 15) {
+      // Cold - Blue variations
+      return getRandomScheme([
+        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
+        { bg: 'bg-blue-500', card: 'bg-blue-400', hover: 'hover:bg-blue-600' },
+        { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
+        { bg: 'bg-sky-500', card: 'bg-sky-400', hover: 'hover:bg-sky-600' },
+      ]);
+    } else {
+      // Pleasant - Green/Yellow variations
+      return getRandomScheme([
+        { bg: 'bg-green-400', card: 'bg-green-300', hover: 'hover:bg-green-500' },
+        { bg: 'bg-green-500', card: 'bg-green-400', hover: 'hover:bg-green-600' },
+        { bg: 'bg-emerald-400', card: 'bg-emerald-300', hover: 'hover:bg-emerald-500' },
+        { bg: 'bg-lime-400', card: 'bg-lime-300', hover: 'hover:bg-lime-500' },
+        { bg: 'bg-teal-400', card: 'bg-teal-300', hover: 'hover:bg-teal-500' },
+      ]);
+    }
+  };
+
+  // Fallback color schemes for random selection (when needed)
   const colorSchemes = [
     { bg: 'bg-yellow-400', card: 'bg-yellow-300', hover: 'hover:bg-yellow-500' },
     { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
-    { bg: 'bg-pink-400', card: 'bg-pink-300', hover: 'hover:bg-pink-500' },
-    { bg: 'bg-purple-400', card: 'bg-purple-300', hover: 'hover:bg-purple-500' },
     { bg: 'bg-green-400', card: 'bg-green-300', hover: 'hover:bg-green-500' },
     { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
-    { bg: 'bg-red-400', card: 'bg-red-300', hover: 'hover:bg-red-500' },
     { bg: 'bg-cyan-400', card: 'bg-cyan-300', hover: 'hover:bg-cyan-500' },
-    { bg: 'bg-lime-400', card: 'bg-lime-300', hover: 'hover:bg-lime-500' },
-    { bg: 'bg-rose-400', card: 'bg-rose-300', hover: 'hover:bg-rose-500' },
-    { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
-    { bg: 'bg-teal-400', card: 'bg-teal-300', hover: 'hover:bg-teal-500' },
   ];
 
   const popularCities = [
@@ -234,9 +363,18 @@ export default function App() {
 
       if (weatherData.cod === 200) {
         const now = new Date();
+        const temperature = Math.round(weatherData.main.temp);
+        const weatherCondition = weatherData.weather[0].main;
+        
+        // Set colors based on weather condition and temperature
+        const colorScheme = getWeatherColorScheme(weatherCondition, temperature);
+        setBgColor(colorScheme.bg);
+        setCardBgColor(colorScheme.card);
+        setHoverColor(colorScheme.hover);
+        
         setWeather({
-          temp: Math.round(weatherData.main.temp),
-          description: weatherData.weather[0].main,
+          temp: temperature,
+          description: weatherCondition,
           wind: Math.round(weatherData.wind.speed * 3.6), // Convert m/s to km/h
           humidity: weatherData.main.humidity,
           visibility: Math.round(weatherData.visibility / 1000), // Convert m to km
@@ -291,12 +429,7 @@ export default function App() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchInput.trim()) {
-      // Pick a random color scheme
-      const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-      setBgColor(randomScheme.bg);
-      setCardBgColor(randomScheme.card);
-      setHoverColor(randomScheme.hover);
-      
+      // Colors will be set automatically based on weather when fetchWeatherData is called
       setCity(searchInput.trim());
       saveRecentSearch(searchInput.trim());
       setShowSearch(false);
@@ -476,10 +609,7 @@ export default function App() {
                       <button
                         key={cityName}
                         onClick={() => {
-                          const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-                          setBgColor(randomScheme.bg);
-                          setCardBgColor(randomScheme.card);
-                          setHoverColor(randomScheme.hover);
+                          // Colors will be set automatically based on weather when fetchWeatherData is called
                           setCity(cityName);
                           saveRecentSearch(cityName);
                           setDrawerOpen(false);
@@ -509,10 +639,7 @@ export default function App() {
                     <button
                       key={cityName}
                       onClick={() => {
-                        const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-                        setBgColor(randomScheme.bg);
-                        setCardBgColor(randomScheme.card);
-                        setHoverColor(randomScheme.hover);
+                        // Colors will be set automatically based on weather when fetchWeatherData is called
                         setCity(cityName);
                         saveRecentSearch(cityName);
                         setDrawerOpen(false);
@@ -538,10 +665,7 @@ export default function App() {
                     <div key={cityName} className="relative group">
                       <button
                         onClick={() => {
-                          const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-                          setBgColor(randomScheme.bg);
-                          setCardBgColor(randomScheme.card);
-                          setHoverColor(randomScheme.hover);
+                          // Colors will be set automatically based on weather when fetchWeatherData is called
                           setCity(cityName);
                           saveRecentSearch(cityName);
                           setDrawerOpen(false);
@@ -573,10 +697,7 @@ export default function App() {
                   <button
                     key={cityName}
                     onClick={() => {
-                      const randomScheme = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-                      setBgColor(randomScheme.bg);
-                      setCardBgColor(randomScheme.card);
-                      setHoverColor(randomScheme.hover);
+                      // Colors will be set automatically based on weather when fetchWeatherData is called
                       setCity(cityName);
                       saveRecentSearch(cityName);
                       setDrawerOpen(false);
