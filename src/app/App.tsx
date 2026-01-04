@@ -49,137 +49,137 @@ export default function App() {
   const API_KEY = '515baf0860975c22479605b733774607';
   const SERVER_URL = `https://${projectId}.supabase.co/functions/v1/make-server-95efc439`;
 
-  // Weather-based color schemes with subtle variations
+  // Weather-based color schemes inspired by design references
   const getWeatherColorScheme = (weatherCondition: string, temperature: number) => {
     const condition = weatherCondition.toLowerCase();
+    const hour = new Date().getHours();
+    const isNight = hour >= 20 || hour < 6;
     
     // Helper function to randomly select from an array of color schemes
     const getRandomScheme = (schemes: Array<{bg: string, card: string, hover: string}>) => {
       return schemes[Math.floor(Math.random() * schemes.length)];
     };
     
-    // Sunny/Clear - Yellow/Orange family with variations
-    if (condition.includes('clear') || condition.includes('sun')) {
-      if (temperature > 25) {
-        // Hot & Sunny - Orange family variations
+    // Rainy - Dark gray/black for night, blue tones for day
+    if (condition.includes('rain') || condition.includes('drizzle') || condition.includes('thunderstorm')) {
+      if (isNight) {
         return getRandomScheme([
+          { bg: 'bg-gray-800', card: 'bg-gray-700', hover: 'hover:bg-gray-900' },
+          { bg: 'bg-slate-800', card: 'bg-slate-700', hover: 'hover:bg-slate-900' },
+          { bg: 'bg-zinc-800', card: 'bg-zinc-700', hover: 'hover:bg-zinc-900' },
+        ]);
+      }
+      return getRandomScheme([
+        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
+        { bg: 'bg-sky-400', card: 'bg-sky-300', hover: 'hover:bg-sky-500' },
+        { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
+      ]);
+    }
+    
+    // Sunny/Clear - Orange for hot, light gray-green for pleasant, dark for night
+    if (condition.includes('clear') || condition.includes('sun')) {
+      if (isNight) {
+        return getRandomScheme([
+          { bg: 'bg-gray-800', card: 'bg-gray-700', hover: 'hover:bg-gray-900' },
+          { bg: 'bg-slate-800', card: 'bg-slate-700', hover: 'hover:bg-slate-900' },
+          { bg: 'bg-zinc-800', card: 'bg-zinc-700', hover: 'hover:bg-zinc-900' },
+        ]);
+      }
+      if (temperature > 25) {
+        // Hot & Sunny - Light orange (Phoenix style)
+        return getRandomScheme([
+          { bg: 'bg-orange-300', card: 'bg-orange-200', hover: 'hover:bg-orange-400' },
           { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
-          { bg: 'bg-orange-500', card: 'bg-orange-400', hover: 'hover:bg-orange-600' },
-          { bg: 'bg-amber-400', card: 'bg-amber-300', hover: 'hover:bg-amber-500' },
-          { bg: 'bg-yellow-500', card: 'bg-yellow-400', hover: 'hover:bg-yellow-600' },
+          { bg: 'bg-amber-300', card: 'bg-amber-200', hover: 'hover:bg-amber-400' },
         ]);
       } else {
-        // Pleasant & Sunny - Yellow family variations
+        // Pleasant & Sunny - Light gray-green (London style)
         return getRandomScheme([
-          { bg: 'bg-yellow-400', card: 'bg-yellow-300', hover: 'hover:bg-yellow-500' },
-          { bg: 'bg-yellow-500', card: 'bg-yellow-400', hover: 'hover:bg-yellow-600' },
-          { bg: 'bg-amber-300', card: 'bg-amber-200', hover: 'hover:bg-amber-400' },
-          { bg: 'bg-lime-400', card: 'bg-lime-300', hover: 'hover:bg-lime-500' },
+          { bg: 'bg-lime-200', card: 'bg-lime-100', hover: 'hover:bg-lime-300' },
+          { bg: 'bg-emerald-200', card: 'bg-emerald-100', hover: 'hover:bg-emerald-300' },
+          { bg: 'bg-teal-200', card: 'bg-teal-100', hover: 'hover:bg-teal-300' },
+          { bg: 'bg-green-200', card: 'bg-green-100', hover: 'hover:bg-green-300' },
         ]);
       }
     }
     
-    // Rainy - Blue family variations
-    if (condition.includes('rain') || condition.includes('drizzle') || condition.includes('thunderstorm')) {
-      return getRandomScheme([
-        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
-        { bg: 'bg-blue-500', card: 'bg-blue-400', hover: 'hover:bg-blue-600' },
-        { bg: 'bg-sky-400', card: 'bg-sky-300', hover: 'hover:bg-sky-500' },
-        { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
-        { bg: 'bg-cyan-500', card: 'bg-cyan-400', hover: 'hover:bg-cyan-600' },
-      ]);
-    }
-    
-    // Snow - Cyan/Blue family variations
-    if (condition.includes('snow')) {
-      return getRandomScheme([
-        { bg: 'bg-cyan-400', card: 'bg-cyan-300', hover: 'hover:bg-cyan-500' },
-        { bg: 'bg-cyan-500', card: 'bg-cyan-400', hover: 'hover:bg-cyan-600' },
-        { bg: 'bg-sky-300', card: 'bg-sky-200', hover: 'hover:bg-sky-400' },
-        { bg: 'bg-blue-300', card: 'bg-blue-200', hover: 'hover:bg-blue-400' },
-        { bg: 'bg-teal-400', card: 'bg-teal-300', hover: 'hover:bg-teal-500' },
-      ]);
-    }
-    
-    // Fog/Mist/Haze - Gray family variations
-    if (condition.includes('mist') || condition.includes('fog') || condition.includes('haze')) {
-      return getRandomScheme([
-        { bg: 'bg-gray-400', card: 'bg-gray-300', hover: 'hover:bg-gray-500' },
-        { bg: 'bg-gray-500', card: 'bg-gray-400', hover: 'hover:bg-gray-600' },
-        { bg: 'bg-slate-400', card: 'bg-slate-300', hover: 'hover:bg-slate-500' },
-        { bg: 'bg-slate-500', card: 'bg-slate-400', hover: 'hover:bg-slate-600' },
-        { bg: 'bg-zinc-400', card: 'bg-zinc-300', hover: 'hover:bg-zinc-500' },
-      ]);
-    }
-    
-    // Cloudy - Temperature-based with variations
+    // Cloudy - Light beige/brown (Beijing style) or light green (Paris style)
     if (condition.includes('cloud')) {
       if (temperature > 25) {
-        // Hot but cloudy - Warm gray/orange variations
+        // Hot but cloudy - Warm beige/brown
         return getRandomScheme([
-          { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
-          { bg: 'bg-amber-400', card: 'bg-amber-300', hover: 'hover:bg-amber-500' },
-          { bg: 'bg-stone-400', card: 'bg-stone-300', hover: 'hover:bg-stone-500' },
+          { bg: 'bg-amber-200', card: 'bg-amber-100', hover: 'hover:bg-amber-300' },
+          { bg: 'bg-stone-200', card: 'bg-stone-100', hover: 'hover:bg-stone-300' },
+          { bg: 'bg-orange-200', card: 'bg-orange-100', hover: 'hover:bg-orange-300' },
         ]);
       } else if (temperature < 10) {
-        // Cold & Cloudy - Cool blue/indigo variations
-        return getRandomScheme([
-          { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
-          { bg: 'bg-indigo-500', card: 'bg-indigo-400', hover: 'hover:bg-indigo-600' },
-          { bg: 'bg-slate-500', card: 'bg-slate-400', hover: 'hover:bg-slate-600' },
-          { bg: 'bg-blue-500', card: 'bg-blue-400', hover: 'hover:bg-blue-600' },
-        ]);
-      } else {
-        // Pleasant & Cloudy - Neutral gray variations
+        // Cold & Cloudy - Cool gray
         return getRandomScheme([
           { bg: 'bg-slate-400', card: 'bg-slate-300', hover: 'hover:bg-slate-500' },
-          { bg: 'bg-slate-500', card: 'bg-slate-400', hover: 'hover:bg-slate-600' },
-          { bg: 'bg-gray-500', card: 'bg-gray-400', hover: 'hover:bg-gray-600' },
-          { bg: 'bg-zinc-400', card: 'bg-zinc-300', hover: 'hover:bg-zinc-500' },
+          { bg: 'bg-gray-400', card: 'bg-gray-300', hover: 'hover:bg-gray-500' },
+          { bg: 'bg-blue-300', card: 'bg-blue-200', hover: 'hover:bg-blue-400' },
+        ]);
+      } else {
+        // Pleasant & Cloudy - Light beige/brown (Beijing) or light green (Paris)
+        return getRandomScheme([
+          { bg: 'bg-stone-200', card: 'bg-stone-100', hover: 'hover:bg-stone-300' },
+          { bg: 'bg-amber-100', card: 'bg-amber-50', hover: 'hover:bg-amber-200' },
+          { bg: 'bg-green-200', card: 'bg-green-100', hover: 'hover:bg-green-300' },
+          { bg: 'bg-lime-200', card: 'bg-lime-100', hover: 'hover:bg-lime-300' },
         ]);
       }
     }
     
-    // Temperature-based fallback with variations
-    if (temperature > 30) {
-      // Very Hot - Red/Orange variations
+    // Snow - Light blue/cyan
+    if (condition.includes('snow')) {
       return getRandomScheme([
-        { bg: 'bg-red-400', card: 'bg-red-300', hover: 'hover:bg-red-500' },
-        { bg: 'bg-red-500', card: 'bg-red-400', hover: 'hover:bg-red-600' },
-        { bg: 'bg-orange-500', card: 'bg-orange-400', hover: 'hover:bg-orange-600' },
-        { bg: 'bg-rose-500', card: 'bg-rose-400', hover: 'hover:bg-rose-600' },
+        { bg: 'bg-cyan-300', card: 'bg-cyan-200', hover: 'hover:bg-cyan-400' },
+        { bg: 'bg-sky-300', card: 'bg-sky-200', hover: 'hover:bg-sky-400' },
+        { bg: 'bg-blue-300', card: 'bg-blue-200', hover: 'hover:bg-blue-400' },
+      ]);
+    }
+    
+    // Fog/Mist/Haze - Light gray
+    if (condition.includes('mist') || condition.includes('fog') || condition.includes('haze')) {
+      return getRandomScheme([
+        { bg: 'bg-gray-300', card: 'bg-gray-200', hover: 'hover:bg-gray-400' },
+        { bg: 'bg-slate-300', card: 'bg-slate-200', hover: 'hover:bg-slate-400' },
+        { bg: 'bg-zinc-300', card: 'bg-zinc-200', hover: 'hover:bg-zinc-400' },
+      ]);
+    }
+    
+    // Temperature-based fallback
+    if (temperature > 30) {
+      // Very Hot - Light orange
+      return getRandomScheme([
+        { bg: 'bg-orange-300', card: 'bg-orange-200', hover: 'hover:bg-orange-400' },
+        { bg: 'bg-amber-300', card: 'bg-amber-200', hover: 'hover:bg-amber-400' },
       ]);
     } else if (temperature > 25) {
-      // Hot - Orange variations
+      // Hot - Light orange
       return getRandomScheme([
-        { bg: 'bg-orange-400', card: 'bg-orange-300', hover: 'hover:bg-orange-500' },
-        { bg: 'bg-orange-500', card: 'bg-orange-400', hover: 'hover:bg-orange-600' },
-        { bg: 'bg-amber-500', card: 'bg-amber-400', hover: 'hover:bg-amber-600' },
+        { bg: 'bg-orange-300', card: 'bg-orange-200', hover: 'hover:bg-orange-400' },
+        { bg: 'bg-amber-300', card: 'bg-amber-200', hover: 'hover:bg-amber-400' },
       ]);
     } else if (temperature < 5) {
-      // Very Cold - Cyan/Blue variations
+      // Very Cold - Light blue
       return getRandomScheme([
-        { bg: 'bg-cyan-400', card: 'bg-cyan-300', hover: 'hover:bg-cyan-500' },
-        { bg: 'bg-cyan-500', card: 'bg-cyan-400', hover: 'hover:bg-cyan-600' },
-        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
-        { bg: 'bg-sky-400', card: 'bg-sky-300', hover: 'hover:bg-sky-500' },
+        { bg: 'bg-cyan-300', card: 'bg-cyan-200', hover: 'hover:bg-cyan-400' },
+        { bg: 'bg-blue-300', card: 'bg-blue-200', hover: 'hover:bg-blue-400' },
       ]);
     } else if (temperature < 15) {
-      // Cold - Blue variations
+      // Cold - Light blue
       return getRandomScheme([
-        { bg: 'bg-blue-400', card: 'bg-blue-300', hover: 'hover:bg-blue-500' },
-        { bg: 'bg-blue-500', card: 'bg-blue-400', hover: 'hover:bg-blue-600' },
-        { bg: 'bg-indigo-400', card: 'bg-indigo-300', hover: 'hover:bg-indigo-500' },
-        { bg: 'bg-sky-500', card: 'bg-sky-400', hover: 'hover:bg-sky-600' },
+        { bg: 'bg-blue-300', card: 'bg-blue-200', hover: 'hover:bg-blue-400' },
+        { bg: 'bg-sky-300', card: 'bg-sky-200', hover: 'hover:bg-sky-400' },
       ]);
     } else {
-      // Pleasant - Green/Yellow variations
+      // Pleasant - Light green or light gray-green
       return getRandomScheme([
-        { bg: 'bg-green-400', card: 'bg-green-300', hover: 'hover:bg-green-500' },
-        { bg: 'bg-green-500', card: 'bg-green-400', hover: 'hover:bg-green-600' },
-        { bg: 'bg-emerald-400', card: 'bg-emerald-300', hover: 'hover:bg-emerald-500' },
-        { bg: 'bg-lime-400', card: 'bg-lime-300', hover: 'hover:bg-lime-500' },
-        { bg: 'bg-teal-400', card: 'bg-teal-300', hover: 'hover:bg-teal-500' },
+        { bg: 'bg-green-200', card: 'bg-green-100', hover: 'hover:bg-green-300' },
+        { bg: 'bg-lime-200', card: 'bg-lime-100', hover: 'hover:bg-lime-300' },
+        { bg: 'bg-emerald-200', card: 'bg-emerald-100', hover: 'hover:bg-emerald-300' },
+        { bg: 'bg-teal-200', card: 'bg-teal-100', hover: 'hover:bg-teal-300' },
       ]);
     }
   };
@@ -487,8 +487,27 @@ export default function App() {
 
         {/* Main Content */}
         <div className="px-3 sm:px-4 pb-6 sm:pb-8">
-          {/* Header with Menu and City */}
-          <div className="flex justify-between items-center mb-4 sm:mb-6">
+          {/* Weather Condition - First */}
+          <div className="text-center mb-4">
+            <h2 className="text-black text-xl sm:text-2xl">{weather.description}</h2>
+          </div>
+
+          {/* Temperature - Second */}
+          <div className="text-center mb-4">
+            <div className="text-black text-[60px] sm:text-[80px] md:text-[120px] font-thin leading-none tracking-tight">
+              {weather.temp}°
+            </div>
+          </div>
+
+          {/* Date Badge - Third */}
+          <div className="flex justify-center mb-4">
+            <div className="bg-black text-white px-4 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm">
+              {weather.date}
+            </div>
+          </div>
+
+          {/* Header with Menu and City - Fourth */}
+          <div className="flex justify-between items-center mb-6 sm:mb-8">
             <div className="w-8 sm:w-10"></div>
             <button 
               onClick={() => setDrawerOpen(true)}
@@ -507,29 +526,10 @@ export default function App() {
             </button>
           </div>
 
-          {/* Date Badge */}
-          <div className="flex justify-center mb-3 sm:mb-4">
-            <div className="bg-black text-white px-4 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm">
-              {weather.date}
-            </div>
-          </div>
-
-          {/* Weather Condition */}
-          <div className="text-center mb-2">
-            <h2 className="text-black text-xl sm:text-2xl">{weather.description}</h2>
-          </div>
-
-          {/* Temperature */}
-          <div className="text-center mb-6 sm:mb-8">
-            <div className="text-black text-[60px] sm:text-[80px] md:text-[100px] font-thin leading-none tracking-tight">
-              {weather.temp}°
-            </div>
-          </div>
-
-          {/* Daily Summary */}
+          {/* Daily Summary - Centered */}
           <div className="mb-4 sm:mb-6">
-            <h3 className="text-black text-base sm:text-lg mb-2">Daily Summary</h3>
-            <p className="text-black text-xs sm:text-sm leading-relaxed">
+            <h3 className="text-black text-base sm:text-lg mb-2 text-center">Daily Summary</h3>
+            <p className="text-black text-xs sm:text-sm leading-relaxed text-center">
               Now it feels like +{weather.feels_like}°; actually it's +{weather.temp}°. 
               It feels hot because of the direct sun. Today the temperature is in the range from +{weather.temp_min}° to +{weather.temp_max}°.
             </p>
