@@ -322,26 +322,26 @@ export default function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-yellow-400 flex items-center justify-center">
-        <div className="text-black">Loading...</div>
+      <div className="min-h-screen bg-yellow-400 flex items-center justify-center px-4">
+        <div className="text-black text-sm sm:text-base">Loading...</div>
       </div>
     );
   }
 
   if (!weather) {
     return (
-      <div className="min-h-screen bg-yellow-400 flex items-center justify-center">
-        <div className="text-black">Unable to load weather data</div>
+      <div className="min-h-screen bg-yellow-400 flex items-center justify-center px-4">
+        <div className="text-black text-sm sm:text-base text-center">Unable to load weather data</div>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen ${bgColor} flex justify-center`}>
+    <div className={`min-h-screen ${bgColor} flex justify-center px-2 sm:px-4`}>
       <div className="w-full max-w-md relative">
         {/* Status Bar */}
-        <div className={`${bgColor} px-6 pt-3 pb-2 flex justify-between items-center`}>
-          <span className="text-black text-sm">{weather.time}</span>
+        <div className={`${bgColor} px-4 sm:px-6 pt-3 pb-2 flex justify-between items-center`}>
+          <span className="text-black text-xs sm:text-sm">{weather.time}</span>
           <div className="flex items-center gap-1">
             <div className="flex gap-0.5">
               <div className="w-0.5 h-3 bg-black rounded"></div>
@@ -353,92 +353,92 @@ export default function App() {
         </div>
 
         {/* Main Content */}
-        <div className="px-4 pb-8">
+        <div className="px-3 sm:px-4 pb-6 sm:pb-8">
           {/* Header with Menu and City */}
-          <div className="flex justify-between items-center mb-6">
-            <div className="w-10"></div>
+          <div className="flex justify-between items-center mb-4 sm:mb-6">
+            <div className="w-8 sm:w-10"></div>
             <button 
               onClick={() => setDrawerOpen(true)}
               className="flex items-center gap-1 hover:opacity-70 transition"
             >
-              <h1 className="text-black text-xl">{weather.city}</h1>
-              <ChevronDown className="w-5 h-5 text-black" />
+              <h1 className="text-black text-lg sm:text-xl">{weather.city}</h1>
+              <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-black" />
             </button>
             <button
               onClick={() => toggleSaveCity(weather.city)}
-              className="w-10 h-10 flex items-center justify-center hover:opacity-70 transition"
+              className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center hover:opacity-70 transition"
             >
               <Heart
-                className={`w-6 h-6 ${savedCities.includes(weather.city) ? 'fill-black text-black' : 'text-black'}`}
+                className={`w-5 h-5 sm:w-6 sm:h-6 ${savedCities.includes(weather.city) ? 'fill-black text-black' : 'text-black'}`}
               />
             </button>
           </div>
 
           {/* Date Badge */}
-          <div className="flex justify-center mb-4">
-            <div className="bg-black text-white px-5 py-1.5 rounded-full text-sm">
+          <div className="flex justify-center mb-3 sm:mb-4">
+            <div className="bg-black text-white px-4 sm:px-5 py-1.5 rounded-full text-xs sm:text-sm">
               {weather.date}
             </div>
           </div>
 
           {/* Weather Condition */}
           <div className="text-center mb-2">
-            <h2 className="text-black text-2xl">{weather.description}</h2>
+            <h2 className="text-black text-xl sm:text-2xl">{weather.description}</h2>
           </div>
 
           {/* Temperature */}
-          <div className="text-center mb-8">
-            <div className="text-black text-[120px] leading-none tracking-tight">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="text-black text-[60px] sm:text-[80px] md:text-[100px] font-thin leading-none tracking-tight">
               {weather.temp}°
             </div>
           </div>
 
           {/* Daily Summary */}
-          <div className="mb-6">
-            <h3 className="text-black text-lg mb-2">Daily Summary</h3>
-            <p className="text-black text-sm leading-relaxed">
+          <div className="mb-4 sm:mb-6">
+            <h3 className="text-black text-base sm:text-lg mb-2">Daily Summary</h3>
+            <p className="text-black text-xs sm:text-sm leading-relaxed">
               Now it feels like +{weather.feels_like}°; actually it's +{weather.temp}°. 
               It feels hot because of the direct sun. Today the temperature is in the range from +{weather.temp_min}° to +{weather.temp_max}°.
             </p>
           </div>
 
           {/* Weather Stats Card */}
-          <div className="bg-black rounded-3xl px-6 py-6 mb-6">
-            <div className="grid grid-cols-3 gap-4">
+          <div className="bg-black rounded-2xl sm:rounded-3xl px-4 sm:px-6 py-4 sm:py-6 mb-4 sm:mb-6">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
               <div className="flex flex-col items-center">
-                <Wind className="w-8 h-8 text-white mb-2" />
-                <div className="text-white text-xl">{weather.wind}km/h</div>
-                <div className="text-white/70 text-sm">Wind</div>
+                <Wind className="w-6 h-6 sm:w-8 sm:h-8 text-white mb-1 sm:mb-2" />
+                <div className="text-white text-base sm:text-xl">{weather.wind}km/h</div>
+                <div className="text-white/70 text-xs sm:text-sm">Wind</div>
               </div>
               <div className="flex flex-col items-center">
-                <Droplets className="w-8 h-8 text-white mb-2" />
-                <div className="text-white text-xl">{weather.humidity}%</div>
-                <div className="text-white/70 text-sm">Humidity</div>
+                <Droplets className="w-6 h-6 sm:w-8 sm:h-8 text-white mb-1 sm:mb-2" />
+                <div className="text-white text-base sm:text-xl">{weather.humidity}%</div>
+                <div className="text-white/70 text-xs sm:text-sm">Humidity</div>
               </div>
               <div className="flex flex-col items-center">
-                <Eye className="w-8 h-8 text-white mb-2" />
-                <div className="text-white text-xl">{weather.visibility}km</div>
-                <div className="text-white/70 text-sm">Visibility</div>
+                <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-white mb-1 sm:mb-2" />
+                <div className="text-white text-base sm:text-xl">{weather.visibility}km</div>
+                <div className="text-white/70 text-xs sm:text-sm">Visibility</div>
               </div>
             </div>
           </div>
 
           {/* Weekly Forecast */}
           <div className="mb-4">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-black text-lg">Weekly forecast</h3>
-              <ChevronRight className="w-6 h-6 text-black" />
+            <div className="flex justify-between items-center mb-3 sm:mb-4">
+              <h3 className="text-black text-base sm:text-lg">Weekly forecast</h3>
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
             </div>
             
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-4 gap-2 sm:gap-3">
               {forecast.map((day, index) => (
                 <div
                   key={index}
-                  className={`${cardBgColor} border-2 border-black rounded-2xl p-3 flex flex-col items-center`}
+                  className={`${cardBgColor} border-2 border-black rounded-xl sm:rounded-2xl p-2 sm:p-3 flex flex-col items-center`}
                 >
-                  <div className="text-black text-xl mb-1">{day.temp}°</div>
-                  <div className="text-black text-xs mb-1">{day.day}</div>
-                  <div className="text-black text-xs">{day.date}</div>
+                  <div className="text-black text-base sm:text-xl mb-1">{day.temp}°</div>
+                  <div className="text-black text-[10px] sm:text-xs mb-1">{day.day}</div>
+                  <div className="text-black text-[10px] sm:text-xs">{day.date}</div>
                 </div>
               ))}
             </div>
@@ -456,22 +456,22 @@ export default function App() {
             </DrawerDescription>
           </DrawerHeader>
           
-          <div className="px-4 pb-8 max-h-[70vh] overflow-y-auto">
+          <div className="px-3 sm:px-4 pb-6 sm:pb-8 max-h-[70vh] overflow-y-auto">
             {/* Search Bar */}
-            <div className="mb-6 relative">
+            <div className="mb-4 sm:mb-6 relative">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                 <input
                   type="text"
                   value={searchInput}
                   onChange={handleInputChange}
                   placeholder="Search for a city..."
-                  className="w-full pl-10 pr-4 py-3 rounded-full bg-white/60 backdrop-blur-md border border-white/40 text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20 focus:bg-white/70 transition"
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 rounded-full bg-white/60 backdrop-blur-md border border-white/40 text-black text-sm sm:text-base placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black/20 focus:bg-white/70 transition"
                 />
                 
                 {/* Autocomplete Results */}
                 {searchInput && filteredCities.length > 0 && (
-                  <div className="absolute z-20 w-full mt-2 bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl max-h-48 overflow-y-auto">
+                  <div className="absolute z-20 w-full mt-2 bg-white/70 backdrop-blur-xl border border-white/30 rounded-xl sm:rounded-2xl shadow-2xl max-h-48 overflow-y-auto">
                     {filteredCities.map((cityName) => (
                       <button
                         key={cityName}
@@ -486,10 +486,10 @@ export default function App() {
                           setSearchInput('');
                           setFilteredCities([]);
                         }}
-                        className="w-full px-4 py-3 text-left hover:bg-white/40 flex items-center gap-3 transition first:rounded-t-2xl last:rounded-b-2xl"
+                        className="w-full px-3 sm:px-4 py-2.5 sm:py-3 text-left hover:bg-white/40 flex items-center gap-2 sm:gap-3 transition first:rounded-t-xl sm:first:rounded-t-2xl last:rounded-b-xl sm:last:rounded-b-2xl"
                       >
-                        <MapPin className="w-4 h-4 text-gray-400" />
-                        <span className="text-black">{cityName}</span>
+                        <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400" />
+                        <span className="text-black text-sm sm:text-base">{cityName}</span>
                       </button>
                     ))}
                   </div>
@@ -499,12 +499,12 @@ export default function App() {
 
             {/* Recently Searched */}
             {recentSearches.length > 0 && (
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <MapPin className="w-4 h-4 text-gray-500" />
-                  <h3 className="text-gray-500 text-sm uppercase tracking-wide">Recently Searched</h3>
+              <div className="mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                  <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
+                  <h3 className="text-gray-500 text-xs sm:text-sm uppercase tracking-wide">Recently Searched</h3>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {recentSearches.map((cityName) => (
                     <button
                       key={cityName}
@@ -517,7 +517,7 @@ export default function App() {
                         saveRecentSearch(cityName);
                         setDrawerOpen(false);
                       }}
-                      className="px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-full transition text-black text-sm"
+                      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-50 hover:bg-gray-100 rounded-full transition text-black text-xs sm:text-sm"
                     >
                       {cityName}
                     </button>
@@ -528,12 +528,12 @@ export default function App() {
 
             {/* Saved Cities */}
             {savedCities.length > 0 && (
-              <div className="mb-6">
-                <div className="flex items-center gap-2 mb-3">
-                  <Heart className="w-4 h-4 text-gray-500" />
-                  <h3 className="text-gray-500 text-sm uppercase tracking-wide">Saved Cities</h3>
+              <div className="mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                  <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-500" />
+                  <h3 className="text-gray-500 text-xs sm:text-sm uppercase tracking-wide">Saved Cities</h3>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {savedCities.map((cityName) => (
                     <div key={cityName} className="relative group">
                       <button
@@ -546,7 +546,7 @@ export default function App() {
                           saveRecentSearch(cityName);
                           setDrawerOpen(false);
                         }}
-                        className="px-4 py-2 bg-red-50 hover:bg-red-100 rounded-full transition text-black text-sm pr-10"
+                        className="px-3 sm:px-4 py-1.5 sm:py-2 bg-red-50 hover:bg-red-100 rounded-full transition text-black text-xs sm:text-sm pr-8 sm:pr-10"
                       >
                         {cityName}
                       </button>
@@ -555,9 +555,9 @@ export default function App() {
                           e.stopPropagation();
                           removeSavedCity(cityName);
                         }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700 transition"
+                        className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700 transition"
                       >
-                        <Heart className="w-4 h-4 fill-red-500" />
+                        <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-red-500" />
                       </button>
                     </div>
                   ))}
@@ -567,8 +567,8 @@ export default function App() {
 
             {/* Popular Cities */}
             <div>
-              <h3 className="text-gray-500 text-sm uppercase tracking-wide mb-3">Popular Cities</h3>
-              <div className="flex flex-wrap gap-2">
+              <h3 className="text-gray-500 text-xs sm:text-sm uppercase tracking-wide mb-2 sm:mb-3">Popular Cities</h3>
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
                 {popularCities.map((cityName) => (
                   <button
                     key={cityName}
@@ -581,7 +581,7 @@ export default function App() {
                       saveRecentSearch(cityName);
                       setDrawerOpen(false);
                     }}
-                    className="px-4 py-2 bg-gray-50 hover:bg-gray-100 rounded-full transition text-black text-sm"
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-50 hover:bg-gray-100 rounded-full transition text-black text-xs sm:text-sm"
                   >
                     {cityName}
                   </button>
